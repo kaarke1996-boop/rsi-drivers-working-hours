@@ -24,6 +24,6 @@ Use the Supabase Table Editor, signed into the owner account. Correct the mistak
 
 ## Deployment and checks
 
-Netlify imports this GitHub repository; publish directory is `.` and no build command is needed. `netlify.toml` applies security headers. `setup.sql` documents the deployed schema and is for a fresh database only.
+Source is versioned in this GitHub repository. The current Netlify deployment uses a direct upload of the same website files, without a GitHub account integration. Changes to this repository do not automatically deploy. To update, upload the website files and `_headers` to the existing Netlify project. If a Git integration is enabled later, publish directory is `.` and no build command is needed. `_headers` applies security headers for direct uploads; `netlify.toml` also declares them for Git builds. `setup.sql` documents the deployed schema and is for a fresh database only.
 
 Run calculation/export checks with `node core.test.cjs`. Test database permissions using the Supabase SQL editor under role `anon` in a transaction that is rolled back. Perform browser submission, duplicate, refresh, dashboard and CSV checks on the deployed website; archive test rows afterward so real hours remain empty.
