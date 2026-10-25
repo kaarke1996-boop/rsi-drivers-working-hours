@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict');
+const H=require('./core.js');
+assert.equal(H.minutes('08:00','17:30'),570);
+assert.equal(H.minutes('22:00','06:00'),480);
+assert.equal(H.minutes('23:59','00:01'),2);
+assert.equal(H.minutes('08:00','08:00'),0);
+assert.ok(Number.isNaN(H.minutes('24:00','08:00')));
+assert.ok(Number.isNaN(H.minutes('08:60','09:00')));
+assert.ok(Number.isNaN(H.minutes('','09:00')));
+assert.equal(H.duration(1295),'21h 35m');
+const records=[{work_date:'2026-10-01',driver:'Alinur',start_time:'08:00:00',end_time:'17:30:00',minutes:570},{work_date:'2026-10-02',driver:'Alinur',start_time:'08:00:00',end_time:'08:01:00',minutes:1},{work_date:'2026-10-01',driver:'Noshad',start_time:'22:00:00',end_time:'06:00:00',minutes:480}];
+assert.deepEqual(H.totals(records),{Alinur:571,Noshad:480});
+const csv=H.csv(records);assert.ok(csv.startsWith('\ufeff'));assert.equal(csv.split('\r\n').length,4);assert.ok(csv.includes('"Following day","480","8.0000"'));
+assert.equal(H.duration(H.totals(records).Alinur),'9h 31m');
+console.log('PASS: daytime, overnight, minute accuracy, invalid times, monthly totals and CSV.');
